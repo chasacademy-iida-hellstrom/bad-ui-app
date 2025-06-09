@@ -1,23 +1,32 @@
-// components/firebase/config.js
 import { initializeApp } from 'firebase/app';
 import { initializeAuth, getReactNativePersistence } from 'firebase/auth/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import {
+  FIREBASE_API_KEY,
+  FIREBASE_AUTH_DOMAIN,
+  FIREBASE_PROJECT_ID,
+  FIREBASE_STORAGE_BUCKET,
+  FIREBASE_MESSAGING_SENDER_ID,
+  FIREBASE_APP_ID
+} from '@env';
 const firebaseConfig = {
-  apiKey: "AIzaSyAselE3Ne4pxfUWJ_pBXYfkCg7hluwbES0",
-  authDomain: "bad-ui-app-emiida.firebaseapp.com",
-  projectId: "bad-ui-app-emiida",
-  storageBucket: "bad-ui-app-emiida.appspot.com",
-  messagingSenderId: "837114914146",
-  appId: "1:837114914146:web:106803e21095d7b64b783b"
+  apiKey: FIREBASE_API_KEY,
+  authDomain: FIREBASE_AUTH_DOMAIN,
+  projectId: FIREBASE_PROJECT_ID,
+  storageBucket: FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: FIREBASE_MESSAGING_SENDER_ID,
+  appId: FIREBASE_APP_ID
 };
-
 // Initiera appen
 const app = initializeApp(firebaseConfig);
-
-// ✅ KORREKT sätt för Expo Go-mobil:
+// :white_check_mark: KORREKT sätt för Expo Go-mobil:
 const auth = initializeAuth(app, {
   persistence: getReactNativePersistence(AsyncStorage),
 });
-
 export { firebaseConfig, app, auth };
+
+
+
+
+
+
