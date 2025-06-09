@@ -7,12 +7,12 @@ export default function RegisterScreen() {
   const [password, setPassword] = useState('');
   const handleRegister = async () => {
     try {
-      console.log('Försöker registrera med:', email); // :point_left: Lägg till
+      console.log('Försöker registrera med:', email); 
       await createUserWithEmailAndPassword(auth, email, password);
-      console.log('Registreringen lyckades!'); // :point_left: Lägg till
+      console.log('Registreringen lyckades!'); 
       Alert.alert('Registrerad!', 'Du är nu registrerad.');
     } catch (error: any) {
-      console.error('Fel vid registrering:', error); // :point_left: Lägg till
+      console.error('Fel vid registrering:', error); 
       Alert.alert('Fel', error.message);
     }
   };
