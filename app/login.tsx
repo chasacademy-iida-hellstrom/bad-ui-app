@@ -1,37 +1,31 @@
 import React, { useState } from 'react';
-import { View, Alert, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../components/firebase/config';
 import { useRouter } from 'expo-router';
 
-export default function RegisterScreen() {
+export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const router = useRouter();
 
-  const handleRegister = async () => {
+  const handleLogin = async () => {
     try {
-      console.log('Försöker registrera med:', email);
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      console.log('Registrering lyckades:', userCredential.user);
-      setMessage('✅ Registreringen lyckades!');
-
-      Alert.alert('Registrering lyckades!', 'Logga in för att komma igång.', [
-        {
-          text: 'OK',
-          onPress: () => router.replace('/login'),
-        },
-      ]);
+      console.log('Försöker logga in med:', email);
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      console.log('Inloggning lyckades:', userCredential.user);
+      setMessage('✅ Inloggning lyckades!');
+      router.replace('/home');
     } catch (error: any) {
-      console.error('Fel vid registrering:', error);
+      console.error('Fel vid inloggning:', error);
       setMessage('❌ Fel: ' + error.message);
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Registrera dig</Text>
+      <Text style={styles.title}>Logga in</Text>
       <TextInput
         placeholder="E-post"
         value={email}
@@ -46,11 +40,11 @@ export default function RegisterScreen() {
         secureTextEntry
         style={styles.input}
       />
-      <Button title="Registrera" onPress={handleRegister} />
+      <Button title="Logga in" onPress={handleLogin} />
       {message !== '' && <Text style={styles.message}>{message}</Text>}
 
-      <TouchableOpacity onPress={() => router.push('/login')} style={styles.backLink}>
-        <Text style={styles.backText}>Redan registrerad? Gå till inloggning</Text>
+      <TouchableOpacity onPress={() => router.push('/register')} style={styles.registerLink}>
+        <Text style={styles.registerText}>Har du inget konto? Registrera dig här</Text>
       </TouchableOpacity>
     </View>
   );
@@ -77,11 +71,11 @@ const styles = StyleSheet.create({
     marginTop: 10,
     color: 'red',
   },
-  backLink: {
+  registerLink: {
     marginTop: 20,
     alignItems: 'center',
   },
-  backText: {
+  registerText: {
     color: 'blue',
     textDecorationLine: 'underline',
   },
