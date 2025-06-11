@@ -1,11 +1,11 @@
 // app/index.tsx
 import { useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../components/firebase/config';
+import { auth } from '../../components/firebase/config';
 import { useRouter } from 'expo-router';
 import { View, Text, ActivityIndicator } from 'react-native';
 
-export default function Index() {
+export default function HomeScreen() {
   const router = useRouter();
 
   useEffect(() => {
