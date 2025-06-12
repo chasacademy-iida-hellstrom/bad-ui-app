@@ -16,7 +16,8 @@ export default function LoginScreen() {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       console.log('Inloggning lyckades:', userCredential.user);
       setMessage('✅ Inloggning lyckades!');
-      router.replace('/home');
+      router.replace('/onboarding');
+
     } catch (error: any) {
       console.error('Fel vid inloggning:', error);
       setMessage('❌ Fel: ' + error.message);
