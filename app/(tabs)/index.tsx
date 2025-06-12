@@ -12,7 +12,7 @@ export default function HomeScreen() {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         console.log('✅ Användaren är inloggad:', user.email);
-        router.replace('/home');
+        router.replace('./onboarding'); 
       } else {
         console.log('⛔️ Inte inloggad');
         router.replace('/login');
@@ -20,7 +20,7 @@ export default function HomeScreen() {
     });
 
     return unsubscribe;
-  });
+  }, [router]); 
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
