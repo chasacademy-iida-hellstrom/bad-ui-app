@@ -1,31 +1,37 @@
-// app/index.tsx
-import { useEffect } from 'react';
-import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../../components/firebase/config';
-import { useRouter } from 'expo-router';
-import { View, Text, ActivityIndicator } from 'react-native';
-
-export default function HomeScreen() {
-  const router = useRouter();
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        console.log('✅ Användaren är inloggad:', user.email);
-        router.replace('./onboarding'); 
-      } else {
-        console.log('⛔️ Inte inloggad');
-        router.replace('/login');
-      }
-    });
-
-    return unsubscribe;
-  }, [router]); 
-
+import { View, Text, StyleSheet } from 'react-native';
+export default function HomeTabScreen() {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <ActivityIndicator size="large" />
-      <Text>Laddar...</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>:person_in_lotus_position: Dagens tanke</Text>
+      <Text style={styles.message}>Du behöver inte fixa allt idag.</Text>
     </View>
   );
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 12,
+  },
+  message: {
+    fontSize: 16,
+    fontStyle: 'italic',
+    color: '#444',
+    textAlign: 'center',
+  },
+});
+
+
+
+
+
+
+
+
+
