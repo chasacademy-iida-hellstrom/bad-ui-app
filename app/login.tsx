@@ -12,27 +12,32 @@ export default function LoginScreen() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const handleLogin = async () => {
-    Alert.alert('OK', 'försök logga in', [{ text: 'ja' }]);
-    setLoading(true);
-    setTimeout(async () => {
-      try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        setMessage(':white_check_mark: Inloggning klar');
-        Alert.alert('Välkommen tillbaka', 'Du är nog inloggad nu.');
-        router.replace('/onboarding');
-      } catch (error: any) {
-        setMessage(':x: Fel: ' + (error.message || '...något gick snett.'));
-      } finally {
-        setLoading(false);
-      }
-    }, 4000); // onödigt lång delay
-  };
+  Alert.alert('OK', 'försök logga in', [{ text: 'ja' }]);
+  setLoading(true);
+  setTimeout(async () => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      
+      
+      const userEmail = userCredential.user.email;
+      setMessage(`✅ Inloggad som ${userEmail}`);
+      
+      Alert.alert('Välkommen tillbaka', `Du är nog inloggad nu som ${userEmail}.`);
+      router.replace('/onboarding');
+    } catch (error: any) {
+      setMessage(':x: Fel: ' + (error.message || '...något gick snett.'));
+    } finally {
+      setLoading(false);
+    }
+  }, 4000); 
+};
+
   return (
     <>
       <Stack.Screen options={{ headerShown: false }} />
       <View style={styles.container}>
         <Text style={styles.title}>VÄLKOMMEN!!!!!!!!</Text>
-        {/* Bakvänd ordning även här */}
+       
         <BadInput
           placeholder="mejlish"
           value={email}
