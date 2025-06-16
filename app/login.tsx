@@ -1,83 +1,101 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Alert, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../components/firebase/config';
-import { useRouter } from 'expo-router';
-
+import { useRouter, Stack } from 'expo-router';
+import BadInput from '../components/BadInput';
+import BadButton from '../components/BadButton';
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
-
   const handleLogin = async () => {
-    try {
-      console.log('Försöker logga in med:', email);
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      console.log('Inloggning lyckades:', userCredential.user);
-      setMessage('✅ Inloggning lyckades!');
-      router.replace('/onboarding');
-
-    } catch (error: any) {
-      console.error('Fel vid inloggning:', error);
-      setMessage('❌ Fel: ' + error.message);
-    }
+    Alert.alert('OK', 'försök logga in', [{ text: 'ja' }]);
+    setLoading(true);
+    setTimeout(async () => {
+      try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        setMessage(':white_check_mark: Inloggning klar');
+        Alert.alert('Välkommen tillbaka', 'Du är nog inloggad nu.');
+        router.replace('/onboarding');
+      } catch (error: any) {
+        setMessage(':x: Fel: ' + (error.message || '...något gick snett.'));
+      } finally {
+        setLoading(false);
+      }
+    }, 4000); // onödigt lång delay
   };
-
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Logga in</Text>
-      <TextInput
-        placeholder="E-post"
-        value={email}
-        onChangeText={setEmail}
-        autoCapitalize="none"
-        style={styles.input}
-      />
-      <TextInput
-        placeholder="Lösenord"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-        style={styles.input}
-      />
-      <Button title="Logga in" onPress={handleLogin} />
-      {message !== '' && <Text style={styles.message}>{message}</Text>}
-
-      <TouchableOpacity onPress={() => router.push('/register')} style={styles.registerLink}>
-        <Text style={styles.registerText}>Har du inget konto? Registrera dig här</Text>
-      </TouchableOpacity>
-    </View>
+    <>
+      <Stack.Screen options={{ headerShown: false }} />
+      <View style={styles.container}>
+        <Text style={styles.title}>VÄLKOMMEN!!!!!!!!</Text>
+        {/* Bakvänd ordning även här */}
+        <BadInput
+          placeholder="mejlish"
+          value={email}
+          onChangeText={setEmail}
+          variant="ghost"
+        />
+        <BadInput
+          placeholder="l0s3n?"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+          variant="error"
+        />
+        {loading ? (
+          <>
+            <Text style={{ color: '#888', marginBottom: 10 }}>Bearbetar...</Text>
+            <ActivityIndicator size="large" color="#999" />
+          </>
+        ) : (
+          <BadButton title="Log in" onPress={handleLogin} variant="logIn" />
+        )}
+        {message !== '' && <Text style={styles.message}>{message}</Text>}
+        <TouchableOpacity onPress={() => router.push('/register')} style={styles.registerLink}>
+          <Text style={styles.registerText}>Regga dig</Text>
+        </TouchableOpacity>
+      </View>
+    </>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
+    backgroundColor: '#FFF0F0',
     padding: 20,
-    marginTop: 60,
     flex: 1,
-  },
-  title: {
-    fontSize: 24,
-    marginBottom: 20,
-  },
-  input: {
-    borderWidth: 1,
-    padding: 10,
-    marginBottom: 12,
-    borderRadius: 5,
-  },
-  message: {
-    marginTop: 10,
-    color: 'red',
-  },
-  registerLink: {
-    marginTop: 20,
+    justifyContent: 'center',
     alignItems: 'center',
   },
+  title: {
+    fontSize: 42,
+    color: '#AA6666',
+    marginBottom: 30,
+    fontStyle: 'italic',
+  },
+  message: {
+    marginTop: 15,
+    color: '#CC0000',
+    textAlign: 'center',
+  },
+  registerLink: {
+    marginTop: 30,
+  },
   registerText: {
-    color: 'blue',
+    color: '#6666CC',
     textDecorationLine: 'underline',
+    fontSize: 13,
   },
 });
+
+
+
+
+
+
+
+
+
