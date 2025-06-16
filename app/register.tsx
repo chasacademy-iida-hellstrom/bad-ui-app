@@ -1,88 +1,90 @@
 import React, { useState } from 'react';
-import { View, Alert, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Alert, ActivityIndicator } from 'react-native';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../components/firebase/config';
-import { useRouter } from 'expo-router';
+import { useRouter, Stack } from 'expo-router'; // ✅ glöm inte importera Stack
+import BadInput from '../components/BadInput';
+import BadButton from '../components/BadButton';
 
 export default function RegisterScreen() {
-  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
+  const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleRegister = async () => {
-    try {
-      console.log('Försöker registrera med:', email);
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      console.log('Registrering lyckades:', userCredential.user);
-      setMessage('✅ Registreringen lyckades!');
+    Alert.alert('OBS!', 'Nu registrerar vi dig nog', [{ text: 'Jag går med på allt' }]);
+    setLoading(true);
 
-      Alert.alert('Registrering lyckades!', 'Logga in för att komma igång.', [
-        {
-          text: 'OK',
-          onPress: () => router.replace('/login'),
-        },
-      ]);
-    } catch (error: any) {
-      console.error('Fel vid registrering:', error);
-      setMessage('❌ Fel: ' + error.message);
-    }
+    setTimeout(async () => {
+      try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        Alert.alert('Grattis, du är troligtvis reggad!');
+        router.replace('/login');
+      } catch (error: any) {
+        Alert.alert('Fel!', error.message || 'Något gick väldigt, väldigt snett.');
+      } finally {
+        setLoading(false);
+      }
+    }, 5000);
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Registrera dig</Text>
-      <TextInput
-        placeholder="E-post"
-        value={email}
-        onChangeText={setEmail}
-        autoCapitalize="none"
-        style={styles.input}
-      />
-      <TextInput
-        placeholder="Lösenord"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-        style={styles.input}
-      />
-      <Button title="Registrera" onPress={handleRegister} />
-      {message !== '' && <Text style={styles.message}>{message}</Text>}
+    <>
+      <Stack.Screen options={{ headerShown: false }} />
+      <View style={styles.container}>
+        <Text style={styles.title}>Skapa konto?</Text>
 
-      <TouchableOpacity onPress={() => router.push('/login')} style={styles.backLink}>
-        <Text style={styles.backText}>Redan registrerad? Gå till inloggning</Text>
-      </TouchableOpacity>
-    </View>
+        {/* Medvetet bakvänd ordning */}
+        <BadInput
+          placeholder="lsnrd (min 6?)"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+        />
+
+        <BadInput
+          placeholder="epst adr."
+          value={email}
+          onChangeText={setEmail}
+        />
+
+        {loading ? (
+          <>
+            <Text style={{ color: '#888', marginBottom: 10 }}>Vi jobbar på det.</Text>
+            <ActivityIndicator size="small" color="#999" />
+          </>
+        ) : (
+          <BadButton title="Knapp" onPress={handleRegister} />
+        )}
+
+        <Text style={styles.warning}>
+          ⚠️ Ditt lösenord kanske sparas för all framtid i en hemlig databas, och vår excelfil.
+        </Text>
+      </View>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
-    padding: 20,
-    marginTop: 60,
     flex: 1,
+    backgroundColor: '#FFFFCC',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
   },
   title: {
-    fontSize: 24,
-    marginBottom: 20,
+    fontSize: 22,
+    color: '#CCCCCC',
+    marginBottom: 30,
   },
-  input: {
-    borderWidth: 1,
-    padding: 10,
-    marginBottom: 12,
-    borderRadius: 5,
-  },
-  message: {
-    marginTop: 10,
-    color: 'red',
-  },
-  backLink: {
+  warning: {
     marginTop: 20,
-    alignItems: 'center',
-  },
-  backText: {
-    color: 'blue',
-    textDecorationLine: 'underline',
+    color: 'red',
+    fontStyle: 'italic',
+    fontSize: 12,
+    textAlign: 'center',
+    paddingHorizontal: 10,
   },
 });
