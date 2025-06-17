@@ -1,18 +1,41 @@
-import { useEffect, useState } from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import React, { useEffect, useState, useRef } from 'react';
+import { View, Text, Button, StyleSheet, Animated } from 'react-native';
+
 export default function UltraZenScreen() {
   const [countdown, setCountdown] = useState(5);
+  const opacityAnim = useRef(new Animated.Value(1)).current;
+
   useEffect(() => {
+    // Nedräkning
     const interval = setInterval(() => {
       setCountdown(prev => (prev === 1 ? 5 : prev - 1)); // startar om vid 1
     }, 1000);
+    // Blinkande animation
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(opacityAnim, {
+          toValue: 0,
+          duration: 700,
+          useNativeDriver: true,
+        }),
+        Animated.timing(opacityAnim, {
+          toValue: 1,
+          duration: 700,
+          useNativeDriver: true,
+        }),
+      ]),
+    ).start();
+
     return () => clearInterval(interval);
-  }, []);
+  }, [opacityAnim]);
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>:tornado: UltraZEN:tm: - Maximal Avkoppling</Text>
+      <Text style={styles.title}>🌪️ UltraZEN™ - Maximal Avkoppling</Text>
       <Text style={styles.subtext}>Stirra på texten nedan tills du glömmer varför du kom hit:</Text>
-      <Text style={styles.blinking}>ANDAS IN... NEJ UT... NEJ IN... NU!</Text>
+      <Animated.Text style={[styles.blinking, { opacity: opacityAnim }]}>
+        ANDAS IN... NEJ UT... NEJ IN... NU!
+      </Animated.Text>
       <Text style={styles.timer}>Nedräkning: {countdown}</Text>
       <Button
         title="Stäng av kaos"
@@ -21,6 +44,7 @@ export default function UltraZenScreen() {
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#FF00FF',
@@ -55,9 +79,3 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
 });
-
-
-
-
-
-

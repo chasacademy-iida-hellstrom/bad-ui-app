@@ -18,39 +18,37 @@ export default function OnboardingScreen() {
           image: (
             <Image
               source={require('../assets/images/zen2.png')}
-              style={styles.image}
+              style={[styles.image, { marginTop: 20 }]} // flyttad ner istället för upp
               resizeMode="contain"
             />
           ),
           title: '🧘‍♀️ Andas in...',
           subtitle: '...och håll andan tills appen laddat klart...',
-          imageContainerStyles: { marginTop: -70 },
+          // imageContainerStyles tas bort
         },
         {
           backgroundColor: '#E9BCBE',
           image: (
             <Image
               source={require('../assets/images/zen1.png')}
-              style={styles.image}
+              style={[styles.image, { marginTop: 20 }]}
               resizeMode="contain"
             />
           ),
           title: '🌕 Nu är du nästan närvarande',
           subtitle: '( varning: Vet du vad du ger dig in på? Det kan vara jobbigt att deala med sina demoner)',
-          imageContainerStyles: { marginTop: -70 },
         },
         {
           backgroundColor: '#A6E4D0',
           image: (
             <Image
               source={require('../assets/images/zen3.png')}
-              style={styles.image}
+              style={[styles.image, { marginTop: 20 }]}
               resizeMode="contain"
             />
           ),
-          title: '🌀ÄR DU REDO?!',
-          subtitle: 'Tryck på "V". (Eller sitt kvar- tiden är bara en illusion.) ',
-          imageContainerStyles: { marginTop: -70 },
+          title: '🌀 ÄR DU REDO?!',
+          subtitle: 'Tryck på "V". (Eller sitt kvar - tiden är bara en illusion.)',
         },
       ]}
     />
@@ -59,8 +57,9 @@ export default function OnboardingScreen() {
 
 const styles = StyleSheet.create({
   onboardingContainer: {
-    paddingTop: 10,          // Mindre top-padding än standard
-    justifyContent: 'flex-start', 
+    paddingTop: 40,       
+    paddingBottom: 40,    
+    justifyContent: 'flex-start',
   },
   image: {
     width: 350,
