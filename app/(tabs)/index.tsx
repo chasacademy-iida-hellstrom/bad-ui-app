@@ -66,7 +66,7 @@ export default function HomeTabScreen() {
   }, [pulseAnimTitle, pulseAnimNote]);
   return (
     <View style={styles.container}>
-      {/* Regn av blom-emoji */}
+      
       {[...Array(NUMBER_OF_FLOWERS)].map((_, i) => (
         <FallingFlower
           key={i}

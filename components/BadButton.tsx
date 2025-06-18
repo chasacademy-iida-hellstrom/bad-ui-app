@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     color: '#444',
     fontSize: 14,
   },
-  // Era varianter ↓↓↓
+  
   knapp: {
     backgroundColor: '#AAA',
     borderColor: '#CCC',

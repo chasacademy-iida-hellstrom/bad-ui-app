@@ -20,7 +20,7 @@ export default function LoginScreen() {
       
       
       const userEmail = userCredential.user.email;
-      setMessage(`✅ Inloggad som ${userEmail}`);
+      setMessage(` Inloggad som ${userEmail}`);
       
       Alert.alert('Välkommen tillbaka', `Du är nog inloggad nu som ${userEmail}.`);
       router.replace('/onboarding');

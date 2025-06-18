@@ -9,7 +9,7 @@ export default function TestFirebase() {
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Firebase fungerar 🎉</Text>
+      <Text>Firebase fungerar</Text>
     </View>
   );
 }
