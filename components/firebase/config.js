@@ -11,7 +11,7 @@ const {
   firebaseStorageBucket,
   firebaseMessagingSenderId,
   firebaseAppId,
-} = Constants.expoConfig.extra// Your web app’s Firebase configuration
+} = Constants.expoConfig.extra
 const firebaseConfig = {
   apiKey: firebaseApiKey,
   authDomain: firebaseAuthDomain,
@@ -20,9 +20,9 @@ const firebaseConfig = {
   messagingSenderId: firebaseMessagingSenderId,
   appId: firebaseAppId,
 };
-// Initiera appen
+
 const app = initializeApp(firebaseConfig);
-// :white_check_mark: KORREKT sätt för Expo Go-mobil:
+
 const auth = initializeAuth(app, {
   persistence: getReactNativePersistence(AsyncStorage),
 });

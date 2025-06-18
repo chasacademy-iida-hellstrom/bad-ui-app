@@ -6,11 +6,11 @@ export default function UltraZenScreen() {
   const opacityAnim = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
-    // Nedräkning
+   
     const interval = setInterval(() => {
-      setCountdown(prev => (prev === 1 ? 5 : prev - 1)); // startar om vid 1
+      setCountdown(prev => (prev === 1 ? 5 : prev - 1)); 
     }, 1000);
-    // Blinkande animation
+    
     Animated.loop(
       Animated.sequence([
         Animated.timing(opacityAnim, {

@@ -8,8 +8,8 @@ export default function OnboardingScreen() {
 
   return (
     <Onboarding
-      containerStyles={styles.onboardingContainer} // styr hela layouten
-      bottomBarHighlight={false}                    // gör baren lite plattare
+      containerStyles={styles.onboardingContainer} 
+      bottomBarHighlight={false}                    
       onSkip={() => router.replace('/(tabs)')}
       onDone={() => router.replace('/(tabs)')}
       pages={[
@@ -18,13 +18,13 @@ export default function OnboardingScreen() {
           image: (
             <Image
               source={require('../assets/images/zen2.png')}
-              style={[styles.image, { marginTop: 20 }]} // flyttad ner istället för upp
+              style={[styles.image, { marginTop: 20 }]} 
               resizeMode="contain"
             />
           ),
           title: '🧘‍♀️ Andas in...',
           subtitle: '...och håll andan tills appen laddat klart...',
-          // imageContainerStyles tas bort
+          
         },
         {
           backgroundColor: '#E9BCBE',
